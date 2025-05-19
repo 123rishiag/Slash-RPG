@@ -11,6 +11,10 @@ ABird::ABird()
 {
  	PrimaryActorTick.bCanEverTick = true;
 
+	bUseControllerRotationYaw = true;
+	bUseControllerRotationPitch = true;
+	bUseControllerRotationRoll = true;
+
 	Capsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
 	Capsule->SetCapsuleHalfHeight(20.f);
 	Capsule->SetCapsuleRadius(15.f);
@@ -27,10 +31,6 @@ ABird::ABird()
 	ViewCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("ViewCamera"));
 	ViewCamera->SetupAttachment(CameraBoom);
 
-
-	bUseControllerRotationYaw = true;
-	bUseControllerRotationPitch = true;
-	bUseControllerRotationRoll = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
 
