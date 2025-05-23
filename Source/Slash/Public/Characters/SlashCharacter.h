@@ -8,6 +8,7 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class AItem;
 
 UCLASS()
 class SLASH_API ASlashCharacter : public ACharacter
@@ -19,12 +20,15 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	FORCEINLINE void SetOverlappingItem(AItem* Item) { OverlappingItem = Item; }
+
 protected:
 	virtual void BeginPlay() override;
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void Turn(float Value);
 	void LookUp(float Value);
+	void EquipPressed();
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -33,4 +37,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* ViewCamera;
 
+	UPROPERTY(VisibleInstanceOnly)
+	AItem* OverlappingItem;
 };
