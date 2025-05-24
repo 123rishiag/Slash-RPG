@@ -31,6 +31,7 @@ protected:
 	void Turn(float Value);
 	void LookUp(float Value);
 	void EquipPressed();
+	void Attack();
 
 private:
 
@@ -44,4 +45,7 @@ private:
 
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* OverlappingItem;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Montages")
+	UAnimMontage* AttackMontage;
 };
