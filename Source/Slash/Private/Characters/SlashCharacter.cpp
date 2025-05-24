@@ -7,6 +7,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Items/Item.h"
 #include "Items/Weapons/Weapon.h"
+#include "Animation/AnimInstance.h"
+#include "Animation/AnimMontage.h"
+#include "Kismet/KismetMathLibrary.h"
 
 ASlashCharacter::ASlashCharacter()
 {
@@ -56,6 +59,7 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAxis(FName("LookUp"), this, &ASlashCharacter::LookUp);
 
 	PlayerInputComponent->BindAction(FName("Equip"), IE_Pressed, this, &ASlashCharacter::EquipPressed);
+	PlayerInputComponent->BindAction(FName("Attack"), IE_Pressed, this, &ASlashCharacter::Attack);
 
 }
 
@@ -102,5 +106,17 @@ void ASlashCharacter::EquipPressed()
 	{
 		CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
 		OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"));
+	}
+}
+
+void ASlashCharacter::Attack()
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance && AttackMontage)
+	{
+		AnimInstance->Montage_Play(AttackMontage);
+		int32 RandomIndex = UKismetMathLibrary::RandomInteger(AttackMontage->CompositeSections.Num());
+		FName SectionName = AttackMontage->CompositeSections[RandomIndex].SectionName;
+		AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
 	}
 }
