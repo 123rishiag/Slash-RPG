@@ -111,12 +111,31 @@ void ASlashCharacter::EquipPressed()
 
 void ASlashCharacter::Attack()
 {
+	if (CanAttack())
+	{
+		PlayAttackMontage();
+		ActionState = EActionState::EAS_Attacking;
+	}
+}
+
+void ASlashCharacter::PlayAttackMontage()
+{
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if (AnimInstance && AttackMontage)
 	{
 		AnimInstance->Montage_Play(AttackMontage);
-		int32 RandomIndex = UKismetMathLibrary::RandomInteger(AttackMontage->CompositeSections.Num());
-		FName SectionName = AttackMontage->CompositeSections[RandomIndex].SectionName;
+		const int32 RandomIndex = UKismetMathLibrary::RandomInteger(AttackMontage->CompositeSections.Num());
+		const FName SectionName = AttackMontage->CompositeSections[RandomIndex].SectionName;
 		AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
 	}
+}
+
+void ASlashCharacter::AttackEnd()
+{
+	ActionState = EActionState::EAS_UnOccupied;
+}
+
+bool ASlashCharacter::CanAttack()
+{
+	return ActionState == EActionState::EAS_UnOccupied;
 }

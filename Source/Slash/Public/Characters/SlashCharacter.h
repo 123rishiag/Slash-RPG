@@ -33,9 +33,18 @@ protected:
 	void EquipPressed();
 	void Attack();
 
+	// Montage Functions
+	void PlayAttackMontage();
+
+	UFUNCTION(BlueprintCallable)
+	void AttackEnd();
+
+	bool CanAttack();
+
 private:
 
 	ECharacterState CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
+	EActionState ActionState = EActionState::EAS_UnOccupied;
 
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* CameraBoom;
